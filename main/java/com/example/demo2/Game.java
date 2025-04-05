@@ -80,7 +80,7 @@ public class Game extends Application {
         btnStart.setOnAction(e -> stage.setScene(secondScene));
         finish.setOnMouseEntered(e->finish.setStyle(Button_Style_Hover));
         finish.setOnMouseExited(e->finish.setStyle(Button_Style));
-       // finish.setOnAction(e->windos);
+
         TranslateTransition shake = new TranslateTransition(Duration.seconds(0.1), btnStart);
         shake.setByX(1); // مقدار الحركة على المحور X
         shake.setCycleCount(7); // عدد مرات التكرار
