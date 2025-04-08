@@ -41,110 +41,150 @@ public class Game extends Application {
         private int score = 0; // عدد الإجابات الصحيحة
 
 
+
         @Override
         public void start(Stage stage) {
+
+
+
+                // الشاشة الاولى ↘️
+                /*--------------------*/
+                Text gameText = new Text("Coding Game 🎮"); // اسم العبة
+                Text gameText2 = new Text("Coding Game 🎮"); // اسم العبة
+                Text contact = new Text("Welcome To Our QuizGame");
+                Text info = new Text("This game about computer language and should be answer correctly good lock 😊");
+                info.setFill(Color.WHITE);
+                Button btnStart = new Button("Start");
+                Button finish = new Button("Exit");
+                contact.setFont(Font.font("Impact",20));
+                gameText.setFont(Font.font("Impact", 37));
+                gameText.setFill(Color.RED);
+                gameText2.setFont(Font.font("Impact", 37));
+                gameText2.setFill(Color.RED);
+                contact.setStyle("-fx-fill: red; -fx-font-size:24px");
+                btnStart.setPrefSize(150,30);
+                btnStart.setStyle(Button_Style);
+                finish.setStyle(Button_Style);
+                DropShadow shadowText = new DropShadow();
+                shadowText.setOffsetX(7);
+                shadowText.setOffsetY(7);
+                shadowText.setColor(Color.BLACK);
+                gameText.setEffect(shadowText);
+                DropShadow shadowcontect = new DropShadow();
+                shadowText.setOffsetX(7);
+                shadowText.setOffsetY(7);
+                shadowText.setColor(Color.BLACK);
+                contact.setEffect(shadowcontect);
+                DropShadow gmaetext2 = new DropShadow();
+                shadowText.setOffsetX(7);
+                shadowText.setOffsetY(7);
+                shadowText.setColor(Color.BLACK);
+                gameText2.setEffect(shadowText);
+                /*-------------------------------------------------*/
+                // ترتيب  game text and img
+                ImageView imgGame = new ImageView(new Image("igame.png"));// صورة العبة جنب الاسم
+                ImageView imgGame2 = new ImageView(new Image("igame.png"));// صورة العبة جنب الاسم
+                imgGame2.setFitHeight(130);// ارتفاع الصورة
+                imgGame2.setFitWidth(130);// عرض الصور
+                imgGame.setFitHeight(130);// ارتفاع الصورة
+                imgGame.setFitWidth(130);// عرض الصورة
+                imgGame.setRotate(-10); // دوران الصورة
+                imgGame2.setRotate(-10); // دوران الصورة
+
+                imgGame.setPreserveRatio(true); // الحفاظ على وزن الصورة
+                gameText.setX(180); // موقع  text على محور x
+                gameText.setY(100); // موقع  text على محور y
+                imgGame.setX(120);// موقع img على محور x
+                imgGame.setY(30);// موقع  img على محور y
+                gameText2.setX(75);
+                gameText2.setY(85);
+                imgGame2.setY(10);
+                imgGame2.setX(20);
+
+
+                /*------------------------*/
+                //effects
+
+                finish.setOnMouseEntered(e->finish.setStyle(Button_Style_Hover));
+                finish.setOnMouseExited(e->finish.setStyle(Button_Style));
+                TranslateTransition shake = new TranslateTransition(Duration.seconds(0.1), btnStart);
+                shake.setByX(1); // مقدار الحركة على المحور X
+                shake.setCycleCount(7); // عدد مرات التكرار
+                shake.setAutoReverse(true); // عكس الحركة تلقائيًا
+                // حدث الموشر: بد الاهتزاز عند التمرير
+                btnStart.setOnMouseEntered(e -> shake.play());
+                finish.setOnAction(e -> Platform.exit());
+                FillTransition colorTransition = new FillTransition();
+                colorTransition.setShape(gameText); // العنصر يتم تطبيق التأثير عليه
+                colorTransition.setDuration(Duration.seconds(2)); // مدة التغيير
+                colorTransition.setFromValue(Color.RED); // اللون الأول
+                colorTransition.setToValue(Color.LAVENDERBLUSH); // اللون الثاني
+                colorTransition.setCycleCount(FillTransition.INDEFINITE); // التكرار بلا نهاية
+                colorTransition.setAutoReverse(true); // عكس الحركة تلقائيا
+                // بدا الحركة
+                colorTransition.play();
+                FillTransition colorTransition2 = new FillTransition();
+                colorTransition2.setShape(gameText2); // العنصر يتم تطبيق التأثير عليه
+                colorTransition2.setDuration(Duration.seconds(2)); // مدة التغيير
+                colorTransition2.setFromValue(Color.RED); // اللون الأول
+                colorTransition2.setToValue(Color.LAVENDERBLUSH); // اللون الثاني
+                colorTransition2.setCycleCount(FillTransition.INDEFINITE); // التكرار بلا نهاية
+                colorTransition2.setAutoReverse(true); // عكس الحركة تلقائيا
+                // بدا الحركة
+                colorTransition2.play();
+
+                /*------------------------*/
+                // الحاويات
+                Pane container = new Pane();
+                container.getChildren().addAll(imgGame,gameText); // ==>> للاسم والشعار واقدر اتحكم فيهم
+                VBox vboxContact = new VBox(90);
+                vboxContact.getChildren().addAll(container,contact,info,btnStart,finish);
+                vboxContact.setAlignment(Pos.CENTER);
+                vboxContact.setStyle(BorderPane_Style);
+                vboxContact.setPadding(new Insets(5,5,45,0));
+                /*-----------------------------------------------------------------------------*/
+                Scene scene = new Scene(vboxContact, 600, 600);
+                stage.setResizable(false); // ما يسمح user يكبر الشاشة
+                stage.setScene(scene);
+                stage.setTitle("QuizGame");
+                stage.show();
+                //--------------------------------------------------------------------//
                 Label questionLabel = new Label(questions[currentQuestion]); // عرض السؤال
                 VBox layout = new VBox(38);
+                Pane ss = new Pane();
+                ss.getChildren().addAll(imgGame2,gameText2);
                 layout.getChildren().add(questionLabel);
                 layout.setAlignment(Pos.CENTER);
-                layout.setStyle(BorderPane_Style);
-
+                BorderPane borderPane = new BorderPane();
+                borderPane.setStyle(BorderPane_Style);
+                borderPane.setCenter(layout);
+                borderPane.setTop(ss);
                 // إنشاء خيارات الإجابة
                 for (int i = 0; i < options[currentQuestion].length; i++) {
                         Button optionButton = new Button(options[currentQuestion][i]);
                         int selectedOption = i; // لتحديد الفهرس الصحيح
                         optionButton.setOnAction(e -> handleAnswer(selectedOption, questionLabel, layout));
                         layout.getChildren().add(optionButton);
+                        optionButton.setStyle(ContactStyleOptions);
+                        optionButton.setPrefWidth(190);
+                        optionButton.setPrefHeight(40);
+                        optionButton.setOnMouseEntered(e -> optionButton.setStyle("-fx-background-color:#9deafa"));
+                        optionButton.setOnMouseExited(e -> optionButton.setStyle(ContactStyleOptions));
                 }
 
 
-                Scene secondScene = new Scene(layout, 600, 600);
+                Scene secondScene = new Scene(borderPane, 600, 600);
+                btnStart.setOnAction(e -> stage.setScene(secondScene));
                 /*---------------------------------------*/
                 //style الشاشة الثانية
                 questionLabel.setStyle(ContactStyleQuestion);
 
                 /*---------------------------------------*/
 
-         //الشاشة الثانية ↖️
-        /*--------------------*/
+                //الشاشة الثانية ↖️
+                /*--------------------*/
 
-
-        // الشاشة الاولى ↘️
-        /*--------------------*/
-        Text gameText = new Text("Coding Game 🎮"); // اسم العبة
-        Text contact = new Text("Welcome To Our QuizGame");
-        Text info = new Text("This game about computer language and should be answer correctly good lock 😊");
-        info.setFill(Color.WHITE);
-        Button btnStart = new Button("Start");
-        Button finish = new Button("Exit");
-        contact.setFont(Font.font("Impact",20));
-        gameText.setFont(Font.font("Impact", 37));
-        gameText.setFill(Color.RED);
-        contact.setStyle("-fx-fill: red; -fx-font-size:24px");
-        btnStart.setPrefSize(150,30);
-        btnStart.setStyle(Button_Style);
-        finish.setStyle(Button_Style);
-        DropShadow shadowText = new DropShadow();
-        shadowText.setOffsetX(7);
-        shadowText.setOffsetY(7);
-        shadowText.setColor(Color.BLACK);
-        gameText.setEffect(shadowText);
-        DropShadow shadowcontect = new DropShadow();
-        shadowText.setOffsetX(7);
-        shadowText.setOffsetY(7);
-        shadowText.setColor(Color.BLACK);
-        contact.setEffect(shadowcontect);
-        /*-------------------------------------------------*/
-        // ترتيب  game text and img
-        ImageView imgGame = new ImageView(new Image("igame.png"));// صورة العبة جنب الاسم
-        imgGame.setFitHeight(130);// ارتفاع الصورة
-        imgGame.setFitWidth(130);// عرض الصورة
-        imgGame.setRotate(-10); // دوران الصورة
-        imgGame.setPreserveRatio(true); // الحفاظ على وزن الصورة
-        gameText.setX(180); // موقع  text على محور x
-        gameText.setY(100); // موقع  text على محور y
-        imgGame.setX(120);// موقع img على محور x
-        imgGame.setY(30);// موقع  img على محور y
-        /*------------------------*/
-        //effects
-        btnStart.setOnAction(e -> stage.setScene(secondScene));
-        finish.setOnMouseEntered(e->finish.setStyle(Button_Style_Hover));
-        finish.setOnMouseExited(e->finish.setStyle(Button_Style));
-        TranslateTransition shake = new TranslateTransition(Duration.seconds(0.1), btnStart);
-        shake.setByX(1); // مقدار الحركة على المحور X
-        shake.setCycleCount(7); // عدد مرات التكرار
-        shake.setAutoReverse(true); // عكس الحركة تلقائيًا
-        // حدث الموشر: بد الاهتزاز عند التمرير
-        btnStart.setOnMouseEntered(e -> shake.play());
-        finish.setOnAction(e -> Platform.exit());
-        FillTransition colorTransition = new FillTransition();
-        colorTransition.setShape(gameText); // العنصر يتم تطبيق التأثير عليه
-        colorTransition.setDuration(Duration.seconds(2)); // مدة التغيير
-        colorTransition.setFromValue(Color.RED); // اللون الأول
-        colorTransition.setToValue(Color.LAVENDERBLUSH); // اللون الثاني
-        colorTransition.setCycleCount(FillTransition.INDEFINITE); // التكرار بلا نهاية
-        colorTransition.setAutoReverse(true); // عكس الحركة تلقائيا
-        // بدا الحركة
-        colorTransition.play();
-        /*------------------------*/
-        // الحاويات
-        Pane container = new Pane();
-        container.getChildren().addAll(imgGame,gameText); // ==>> للاسم والشعار واقدر اتحكم فيهم
-        VBox vboxContact = new VBox(90);
-        vboxContact.getChildren().addAll(container,contact,info,btnStart,finish);
-        vboxContact.setAlignment(Pos.CENTER);
-        vboxContact.setStyle(BorderPane_Style);
-        vboxContact.setPadding(new Insets(5,5,45,0));
-
-        /*-----------------------------------------------------------------------------*/
-
-        Scene scene = new Scene(vboxContact, 600, 600);
-        stage.setResizable(false); // ما يسمح user يكبر الشاشة
-        stage.setScene(scene);
-        stage.setTitle("QuizGame");
-        stage.show();
-
-    }
+        }
 
         private void handleAnswer(int selectedOption, Label questionLabel, VBox layout) {
                 // التحقق من الإجابة
@@ -176,6 +216,6 @@ public class Game extends Application {
         }
 
         public static void main(String[] args) {
-        launch();
-    }
+                launch();
+        }
 }
