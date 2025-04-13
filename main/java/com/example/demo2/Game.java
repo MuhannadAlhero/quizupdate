@@ -1,5 +1,4 @@
 package com.example.demo2;
-
 import javafx.animation.FillTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
@@ -23,31 +22,30 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
+
+
+import javax.print.attribute.standard.Media;
 import javax.sound.sampled.Line;
 import javax.swing.text.Position;
 import java.io.IOException;
-
 public class Game extends Application {
         private String BorderPane_Style = "-fx-background-color:#13272b;";
         private String Button_Style = "-fx-background-color:#962321; -fx-text-fill: white;";
         private String Button_Style_Hover = "-fx-background-color:red; -fx-text-fill: white";
-        private String ContactStyleQuestion = "-fx-text-fill:white; -fx-background-color:#1e899e; -fx-font-size:30px; -fx-letter-spacing: 13px;";
+        private String ContactStyleQuestion = "-fx-text-fill:white; -fx-background-color:#1e899e; -fx-font-size:30px; -fx-letter-spacing: 10px;";
         private String ContactStyleOptions = "-fx-text-fill:white; -fx-background-color:#2b494f;";
         /*------------------*/
-        private String[] questions = {"What's the error ?","what's correct ?"};
-        private String[][] options = {{"-fx-color:red","fx-color:RED","-fx-font-size:34px"},{"VBox","hbOX","staKPane"}};
-        private int[] correctAnswers   = {1,0};
+        private String[] questions = {"What's the error ?","what's  correct syntax ?","first method should be add when extends application ?"};
+        private String[][] options = {{"-fx-color:red","fx-color:RED","-fx-font-size:34px"},{"VBox","hbOX","staKPane","BORDERPANE"},{"Run","Start","Handler","Runnable"}};
+        private int[] correctAnswers   = {1,0,1};
         private int currentQuestion = 0; // مؤشر السؤال الحالي
         private int score = 0; // عدد الإجابات الصحيحة
-
-
-
+        private static final String MEDIA_URL = "A Little Bit Deeper - Jeremy Korpas.mp3";
         @Override
         public void start(Stage stage) {
-
-
-
                 // الشاشة الاولى ↘️
+
                 /*--------------------*/
                 Text gameText = new Text("Coding Game 🎮"); // اسم العبة
                 Text gameText2 = new Text("Coding Game 🎮"); // اسم العبة
@@ -90,21 +88,17 @@ public class Game extends Application {
                 imgGame.setFitWidth(130);// عرض الصورة
                 imgGame.setRotate(-10); // دوران الصورة
                 imgGame2.setRotate(-10); // دوران الصورة
-
                 imgGame.setPreserveRatio(true); // الحفاظ على وزن الصورة
-                gameText.setX(180); // موقع  text على محور x
+                gameText.setX(320); // موقع  text على محور x
                 gameText.setY(100); // موقع  text على محور y
-                imgGame.setX(120);// موقع img على محور x
+                imgGame.setX(260);// موقع img على محور x
                 imgGame.setY(30);// موقع  img على محور y
-                gameText2.setX(75);
-                gameText2.setY(85);
-                imgGame2.setY(10);
-                imgGame2.setX(20);
-
-
+                gameText2.setX(330);
+                gameText2.setY(100);
+                imgGame2.setY(30);
+                imgGame2.setX(270);
                 /*------------------------*/
                 //effects
-
                 finish.setOnMouseEntered(e->finish.setStyle(Button_Style_Hover));
                 finish.setOnMouseExited(e->finish.setStyle(Button_Style));
                 TranslateTransition shake = new TranslateTransition(Duration.seconds(0.1), btnStart);
@@ -132,7 +126,6 @@ public class Game extends Application {
                 colorTransition2.setAutoReverse(true); // عكس الحركة تلقائيا
                 // بدا الحركة
                 colorTransition2.play();
-
                 /*------------------------*/
                 // الحاويات
                 Pane container = new Pane();
@@ -143,7 +136,7 @@ public class Game extends Application {
                 vboxContact.setStyle(BorderPane_Style);
                 vboxContact.setPadding(new Insets(5,5,45,0));
                 /*-----------------------------------------------------------------------------*/
-                Scene scene = new Scene(vboxContact, 600, 600);
+                Scene scene = new Scene(vboxContact, 900, 750);
                 stage.setResizable(false); // ما يسمح user يكبر الشاشة
                 stage.setScene(scene);
                 stage.setTitle("QuizGame");
@@ -164,37 +157,34 @@ public class Game extends Application {
                         Button optionButton = new Button(options[currentQuestion][i]);
                         int selectedOption = i; // لتحديد الفهرس الصحيح
                         optionButton.setOnAction(e -> handleAnswer(selectedOption, questionLabel, layout));
-                        layout.getChildren().add(optionButton);
                         optionButton.setStyle(ContactStyleOptions);
                         optionButton.setPrefWidth(190);
                         optionButton.setPrefHeight(40);
                         optionButton.setOnMouseEntered(e -> optionButton.setStyle("-fx-background-color:#9deafa"));
                         optionButton.setOnMouseExited(e -> optionButton.setStyle(ContactStyleOptions));
+                        layout.getChildren().add(optionButton);
+
                 }
-
-
-                Scene secondScene = new Scene(borderPane, 600, 600);
+                Scene secondScene = new Scene(borderPane, 900, 750);
                 btnStart.setOnAction(e -> stage.setScene(secondScene));
                 /*---------------------------------------*/
                 //style الشاشة الثانية
                 questionLabel.setStyle(ContactStyleQuestion);
-
                 /*---------------------------------------*/
-
                 //الشاشة الثانية ↖️
                 /*--------------------*/
-
         }
-
         private void handleAnswer(int selectedOption, Label questionLabel, VBox layout) {
                 // التحقق من الإجابة
                 if (selectedOption == correctAnswers[currentQuestion]) {
                         score++; // زيادة النقاط إذا كانت الإجابة صحيحة
+
                 }
                 currentQuestion++; // الانتقال للسؤال التالي
 
                 // التحقق من نهاية الأسئلة
                 if (currentQuestion >= questions.length) {
+
                         questionLabel.setText("تم الانتهاء من الأسئلة! مجموعك: " + score);
                         layout.getChildren().clear();
                         layout.getChildren().add(questionLabel); // عرض النتيجة النهائية
@@ -208,13 +198,18 @@ public class Game extends Application {
                                 int updateoptions = i; // لتحديد الفهرس الصحيح
                                 optionButton.setOnAction(e -> handleAnswer(updateoptions, questionLabel, layout));
                                 layout.getChildren().add(optionButton);
+                                optionButton.setStyle(ContactStyleOptions);
+                                optionButton.setPrefWidth(190);
+                                optionButton.setPrefHeight(40);
+                                optionButton.setOnMouseEntered(e -> optionButton.setStyle("-fx-background-color:#9deafa"));
+                                optionButton.setOnMouseExited(e -> optionButton.setStyle(ContactStyleOptions));
+
 
                         }
 
                 }
 
         }
-
         public static void main(String[] args) {
                 launch();
         }
